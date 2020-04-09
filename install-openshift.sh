@@ -169,18 +169,11 @@ if [ ! -f ~/.ssh/id_rsa ]; then
 	ssh -o StrictHostKeyChecking=no root@$IP "pwd" < /dev/null
 fi
 
-export METRICS="True"
-export LOGGING="True"
 
 memory=$(cat /proc/meminfo | grep MemTotal | sed "s/MemTotal:[ ]*\([0-9]*\) kB/\1/")
 
-if [ "$memory" -lt "4194304" ]; then
-	export METRICS="False"
-fi
-
-if [ "$memory" -lt "16777216" ]; then
-	export LOGGING="False"
-fi
+export METRICS="False"
+export LOGGING="False"
 
 curl -o inventory.download $SCRIPT_REPO/inventory.ini
 envsubst < inventory.download > inventory.ini
@@ -301,7 +294,7 @@ echo "******"
 echo "* Your console is https://console.$DOMAIN:$API_PORT"
 echo "* Your username is $USERNAME "
 echo "* Your password is $PASSWORD "
-echo "*"
+echo "*"'
 echo "* Login using:"
 echo "*"
 echo "$ oc login -u ${USERNAME} -p ${PASSWORD} https://console.$DOMAIN:$API_PORT/"
